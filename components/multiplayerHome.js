@@ -57,6 +57,43 @@ export default function MultiplayerHome({ ws, setWs, multiplayerState, setMultip
 <label>{text("map")}: {multiplayerState?.createOptions?.displayLocation || multiplayerState?.createOptions?.location }</label>
 <button className="goBtn" onClick={() => setSelectCountryModalShown(true)} disabled={(multiplayerState?.createOptions?.progress !== false)}>{text("change")}</button>
 
+<div>
+    <span>{text('nm')}</span>
+    <input type="checkbox" checked={multiplayerState?.createOptions?.nm} onChange={(e) => {
+      setMultiplayerState(prev => ({
+        ...prev,
+        createOptions: {
+          ...prev.createOptions,
+          nm: e.target.checked
+        }
+      }))
+    }}/>
+</div>
+<div>
+    <span>{text('npz')}</span>
+    <input type="checkbox" checked={multiplayerState?.createOptions?.npz} onChange={(e) => {
+      setMultiplayerState(prev => ({
+        ...prev,
+        createOptions: {
+          ...prev.createOptions,
+          npz: e.target.checked
+        }
+      }))
+    }}/>
+</div>
+<div>
+    <span>{text('showRoadName')}</span>
+    <input type="checkbox" checked={multiplayerState?.createOptions?.showRoadName} onChange={(e) => {
+      setMultiplayerState(prev => ({
+        ...prev,
+        createOptions: {
+          ...prev.createOptions,
+          showRoadName: e.target.checked
+        }
+      }))
+    }}/>
+</div>
+
 <br/>
 
 </div>

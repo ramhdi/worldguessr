@@ -327,7 +327,7 @@ function make6DigitCode() {
 }
 
 class Game {
-  constructor(id, publicLobby, location="all", rounds=5) {
+  constructor(id, publicLobby, location="all", rounds=5, streetViewOptions={nm: false, npz: false, showRoadName: false}) {
     this.id = id;
     this.code = publicLobby ? null : make6DigitCode();
     this.players = {};
@@ -344,6 +344,7 @@ class Game {
     this.rounds = rounds;
     this.curRound = 0; // 1 = 1st round
     this.maxPlayers = 100;
+    this.streetViewOptions = streetViewOptions;
 
     this.generateLocations();
   }
@@ -387,7 +388,8 @@ class Game {
       host: playerObj.host,
       maxDist: this.maxDist,
       code: this.code,
-      generated: this.locations.length
+      generated: this.locations.length,
+      streetViewOptions: this.streetViewOptions,
     });
   }
 
@@ -1180,7 +1182,7 @@ app.prepare().then(() => {
         console.log('Private game requested', id, player.username);
         const gameId = makeId();
         // options
-        let {rounds, timePerRound, locations, maxDist, location} = json;
+        let {rounds, timePerRound, locations, maxDist, location, nm, npz, showRoadName} = json;
         rounds = Number(rounds);
         // maxDist no longer required-> can be pulled from community map
         if(!location) return;
@@ -1228,7 +1230,7 @@ app.prepare().then(() => {
         //   }
         // }
 
-        const game = new Game(gameId, false, location, rounds);
+        const game = new Game(gameId, false, location, rounds, {nm: nm, npz: npz, showRoadName: showRoadName});
         game.timePerRound = timePerRound * 1000;
         // game.locations = locations;
         // game.location = location;

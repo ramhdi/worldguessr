@@ -69,7 +69,10 @@ const initialMultiplayerState = {
     timePerRound: 30,
     location: "all",
     displayLocation: "All countries",
-    progress: false
+    progress: false,
+    nm: false,
+    npz: false,
+    showRoadName: false,
   },
   joinOptions: {
     gameCode: null,
@@ -550,8 +553,8 @@ setShowCountryButtons(false)
 
           // send ws
           // ws.send(JSON.stringify({ type: "createPrivateGame", rounds: args[0].rounds, timePerRound: args[0].timePerRound, locations, maxDist }))
-          ws.send(JSON.stringify({ type: "createPrivateGame", rounds: args[0].rounds, timePerRound: args[0].timePerRound, location: args[0].location, maxDist }))
-          sendEvent("multiplayer_create_private_game", { rounds: args[0].rounds, timePerRound: args[0].timePerRound, location: args[0].location, maxDist })
+          ws.send(JSON.stringify({ type: "createPrivateGame", rounds: args[0].rounds, timePerRound: args[0].timePerRound, location: args[0].location, maxDist, nm: args[0].nm, npz: args[0].npz, showRoadName: args[0].showRoadName }))
+          sendEvent("multiplayer_create_private_game", { rounds: args[0].rounds, timePerRound: args[0].timePerRound, location: args[0].location, maxDist, nm: args[0].nm, npz: args[0].npz, showRoadName: args[0].showRoadName })
           // })()
       }
     }
@@ -801,6 +804,17 @@ setShowCountryButtons(false)
             createOptions: initialMultiplayerState.createOptions,
           }
         })
+
+        if (data.streetViewOptions) {
+          setGameOptions((prev) => {
+            return {
+              ...prev,
+              nm: data.streetViewOptions.nm,
+              npz: data.streetViewOptions.npz,
+              showRoadName: data.streetViewOptions.showRoadName,
+            }
+          })
+        }
 
         if (data.state === "getready") {
           setStreetViewShown(false)
